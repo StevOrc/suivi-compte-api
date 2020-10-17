@@ -11,6 +11,7 @@ dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 const app = express();
+app.use(express.json());
 app.use("/api/transactions", transactions);
 
 app.get("/", (req, res) => {

@@ -9,7 +9,7 @@ exports.getTransactions = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       count: transactions.length,
-      data: transactions,
+      transactions,
     });
   } catch (error) {
     return res.status(500).json({
@@ -26,10 +26,11 @@ exports.addTransactions = async (req, res, next) => {
   try {
     const { text, amount } = req.body;
     const transaction = await Transaction.create(req.body);
+    console.log("add transaction => ", transaction);
 
     return res.status(201).json({
       success: true,
-      data: transaction,
+      transaction,
     });
   } catch (err) {
     if (err.name === "ValidationError") {
@@ -66,5 +67,10 @@ exports.removeTransaction = async (req, res, next) => {
       data: transaction,
       success: true,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Error 500 : Server error",
+    });
+  }
 };
